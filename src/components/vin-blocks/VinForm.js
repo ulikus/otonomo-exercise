@@ -4,6 +4,12 @@ import React, { Component } from 'react'
 import createRandomColor from '../../dom-utils/colors'
 import createCarStreamer from '../../api/car-data-streamer'
 import config from '../../config/defaults'
+import { connect } from 'react-redux'
+import {
+  updateVinCodes,
+  updateVinColors,
+  updateVinEvents,
+} from '../../actions/vin-codes'
 
 class VinForm extends Component {
   state = {
@@ -20,7 +26,7 @@ class VinForm extends Component {
         color: vinColors[carData.vin],
       })
     }
-    this.props.updateVinEvents({ carDataEvents })
+    this.props.updateVinEvents(carDataEvents)
   }
 
   validateVin = () => {
@@ -53,9 +59,8 @@ class VinForm extends Component {
     Vin.streamer.start()
     carVinCodes.push(Vin)
 
-    // return carVinCodes
-    // vinColors
-    this.props.updateVinCodes({ carVinCodes, vinColors })
+    this.props.updateVinCodes(carVinCodes)
+    this.props.updateVinColors(vinColors)
     this.setState({ newVin: '' })
   }
 
@@ -87,4 +92,31 @@ class VinForm extends Component {
     )
   }
 }
-export default VinForm
+
+const mapStateToProps = state => {
+  return {
+    showAll: state.vinCodes && state.vinCodes.showAll,
+    carDataEvents: state.vinCodes && state.vinCodes.carDataEvents,
+    vinColors: state.vinCodes && state.vinCodes.vinColors,
+    carVinCodes: state.vinCodes && state.vinCodes.carVinCodes,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateVinEvents: value => {
+      dispatch(updateVinEvents(value))
+    },
+    updateVinCodes: value => {
+      dispatch(updateVinCodes(value))
+    },
+    updateVinColors: value => {
+      dispatch(updateVinColors(value))
+    },
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VinForm)
