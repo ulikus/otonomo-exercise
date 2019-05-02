@@ -5,10 +5,10 @@ import { storiesOf } from '@storybook/react'
 import { Welcome } from '@storybook/react/demo'
 import React from 'react'
 import '../assets/global.scss'
-import Button from '../components/Button'
-import Checkbox from '../components/Checkbox'
-import EventNotification from '../components/EventNotification'
-import Input from '../components/Input'
+import Button from '../components/dom-elements/Button'
+import Checkbox from '../components/dom-elements/Checkbox'
+import EventNotification from '../components/dom-elements/EventNotification'
+import Input from '../components/dom-elements/Input'
 
 const stories = storiesOf('Storybook Knobx', module)
 
